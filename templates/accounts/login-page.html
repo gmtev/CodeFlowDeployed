@@ -1,0 +1,33 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center">
+    <div class="card shadow" style="width: 400px;">
+        
+
+        <div class="card-header text-white text-center" style="background-color: #ff6600; padding-bottom: 20px;">
+            <h3>Login</h3>
+        </div>
+        
+
+        <div class="card-body p-4" style="margin-top: 10px;">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                
+
+                <div class="d-flex justify-content-center mt-4">
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                </div>
+            </form>
+
+                <div class="text-center mt-3">
+                    <p class="small text-muted">
+                        Don't have an account? 
+                        <a href="{% url 'register' %}" class="text-decoration-none" style="color: #ff4500;">Register</a>
+                    </p>
+                </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

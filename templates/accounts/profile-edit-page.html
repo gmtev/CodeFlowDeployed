@@ -1,0 +1,106 @@
+{% extends 'common/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4 text-center">Edit Your Profile</h1>
+
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="row">
+
+            <div class="col-md-4 text-center">
+<div class="mb-4">
+    <h5>Profile Picture</h5>
+
+    {% if profile.profile_picture %}
+        <img id="profile-picture-preview" 
+             src="{{ profile.profile_picture.url }}" 
+             alt="Profile Picture" 
+             class="img-fluid rounded-circle mb-3" 
+             style="max-width: 200px;">
+    {% else %}
+        <img id="profile-picture-preview" 
+             src="{% static 'images/default-profile-pic.jpg' %}" 
+             alt="Default Profile Picture" 
+             class="img-fluid rounded-circle mb-3" 
+             style="max-width: 200px;">
+    {% endif %}
+</div>
+
+        
+                
+
+                {% if form.profile_picture.errors %}
+                    <div class="error">
+                        {% for error in form.profile_picture.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+
+                <div class="form-group">
+                    <label for="profile_picture" class="btn btn-secondary btn-block">
+                        Change Profile Picture
+                        <input type="file" name="profile_picture" id="profile_picture" class="form-control-file d-none" onchange="previewImage(event)">
+                        
+                    </label>
+                </div>
+            </div>
+
+
+            <div class="col-md-8">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Personal Information</h5>
+                        
+                        <div class="form-group">
+                            <label for="first_name">First Name</label>
+                            <input type="text" name="first_name" id="first_name" class="form-control" value="{{ profile.first_name }}" placeholder="Enter your first name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="last_name">Last Name</label>
+                            <input type="text" name="last_name" id="last_name" class="form-control" value="{{ profile.last_name }}" placeholder="Enter your last name">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-outline-primary btn-block mt-3">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+    <div class="text-center mt-3">
+        <a href="{% url 'profile-details' object.pk %}" class="btn btn-secondary">Cancel</a>
+    </div>
+</div>
+
+
+<script>
+    function previewImage(event) {
+        // Get the selected file
+        const input = event.target;
+        const file = input.files[0];
+        
+        // Ensure a file is selected and is an image
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+
+            // Once the file is read, update the image src
+            reader.onload = function(e) {
+                const preview = document.getElementById('profile-picture-preview');
+                preview.src = e.target.result;
+            };
+
+            // Read the image file as a data URL
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+
+{% endblock %}
+
