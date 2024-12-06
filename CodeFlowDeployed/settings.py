@@ -31,6 +31,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', config('SECRET_KEY'))
 DEBUG = os.getenv('DEBUG', config('DEBUG')) == "True"
 
 ALLOWED_HOSTS = ['codeflow-chfchee9gkeuf6c3.italynorth-01.azurewebsites.net']
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', config('CSRF_TRUSTED_ORIGINS', [])).split(',')
 
 
 # Application definition
